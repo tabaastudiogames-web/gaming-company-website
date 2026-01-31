@@ -1,1 +1,1496 @@
-# nexus-games-website
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NEXUS GAMES - صانعو عوالم الألعاب الرقمية</title>
+    <link href="https://fonts.googleapis.com/css2?family=Almarai:wght@300;400;700;800&family=Orbitron:wght@400;500;700;900&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #ff00ff;
+            --secondary: #00ffff;
+            --accent: #ffff00;
+            --dark: #0a0a0f;
+            --darker: #05050a;
+            --gradient-1: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            --gradient-2: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+            --gradient-3: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+            --glow-primary: 0 0 30px rgba(255, 0, 255, 0.5);
+            --glow-secondary: 0 0 30px rgba(0, 255, 255, 0.5);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Almarai', sans-serif;
+            background: var(--darker);
+            color: #fff;
+            overflow-x: hidden;
+            position: relative;
+        }
+
+        /* Animated Background */
+        .bg-animation {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            background: var(--darker);
+            overflow: hidden;
+        }
+
+        .bg-animation::before {
+            content: '';
+            position: absolute;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle at 20% 50%, rgba(102, 126, 234, 0.15) 0%, transparent 50%),
+                        radial-gradient(circle at 80% 80%, rgba(247, 37, 133, 0.15) 0%, transparent 50%),
+                        radial-gradient(circle at 40% 20%, rgba(0, 255, 255, 0.1) 0%, transparent 50%);
+            animation: bgMove 20s ease-in-out infinite;
+        }
+
+        @keyframes bgMove {
+            0%, 100% { transform: translate(0, 0) rotate(0deg); }
+            33% { transform: translate(-5%, 5%) rotate(120deg); }
+            66% { transform: translate(5%, -5%) rotate(240deg); }
+        }
+
+        .grid-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: 
+                linear-gradient(rgba(255, 0, 255, 0.03) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(0, 255, 255, 0.03) 1px, transparent 1px);
+            background-size: 50px 50px;
+            z-index: -1;
+            pointer-events: none;
+        }
+
+        /* Header */
+        header {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            padding: 1.5rem 5%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            z-index: 1000;
+            backdrop-filter: blur(10px);
+            background: rgba(10, 10, 15, 0.7);
+            border-bottom: 1px solid rgba(255, 0, 255, 0.2);
+            animation: headerSlide 0.8s ease-out;
+        }
+
+        @keyframes headerSlide {
+            from { transform: translateY(-100%); }
+            to { transform: translateY(0); }
+        }
+
+        .logo {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 2rem;
+            font-weight: 900;
+            background: linear-gradient(90deg, var(--primary), var(--secondary));
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+            text-shadow: var(--glow-primary);
+            animation: logoGlow 3s ease-in-out infinite;
+        }
+
+        @keyframes logoGlow {
+            0%, 100% { filter: drop-shadow(0 0 10px rgba(255, 0, 255, 0.5)); }
+            50% { filter: drop-shadow(0 0 20px rgba(0, 255, 255, 0.8)); }
+        }
+
+        nav ul {
+            display: flex;
+            gap: 2.5rem;
+            list-style: none;
+        }
+
+        nav a {
+            color: #fff;
+            text-decoration: none;
+            font-weight: 500;
+            position: relative;
+            transition: all 0.3s;
+            padding: 0.5rem 0;
+        }
+
+        nav a::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            right: 0;
+            width: 0;
+            height: 2px;
+            background: linear-gradient(90deg, var(--primary), var(--secondary));
+            transition: width 0.3s;
+        }
+
+        nav a:hover::after {
+            width: 100%;
+            right: auto;
+            left: 0;
+        }
+
+        nav a:hover {
+            color: var(--secondary);
+        }
+
+        /* Hero Section */
+        .hero {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            padding: 0 5%;
+            overflow: hidden;
+        }
+
+        .hero-content {
+            text-align: center;
+            z-index: 10;
+            animation: fadeInUp 1s ease-out 0.3s both;
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(50px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .hero h1 {
+            font-family: 'Orbitron', sans-serif;
+            font-size: clamp(2.5rem, 8vw, 6rem);
+            font-weight: 900;
+            line-height: 1.1;
+            margin-bottom: 1.5rem;
+            background: linear-gradient(135deg, #fff, var(--secondary), var(--primary));
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+            animation: titleGlow 4s ease-in-out infinite;
+        }
+
+        @keyframes titleGlow {
+            0%, 100% { filter: drop-shadow(0 0 20px rgba(255, 0, 255, 0.6)); }
+            50% { filter: drop-shadow(0 0 40px rgba(0, 255, 255, 0.8)); }
+        }
+
+        .hero p {
+            font-size: clamp(1.1rem, 2vw, 1.5rem);
+            margin-bottom: 3rem;
+            color: rgba(255, 255, 255, 0.8);
+            animation: fadeInUp 1s ease-out 0.6s both;
+        }
+
+        .cta-buttons {
+            display: flex;
+            gap: 2rem;
+            justify-content: center;
+            animation: fadeInUp 1s ease-out 0.9s both;
+        }
+
+        .btn {
+            padding: 1rem 2.5rem;
+            font-size: 1.1rem;
+            font-weight: 700;
+            border: none;
+            border-radius: 50px;
+            cursor: pointer;
+            transition: all 0.3s;
+            text-decoration: none;
+            display: inline-block;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, var(--primary), #c700ff);
+            color: #fff;
+            box-shadow: 0 10px 30px rgba(255, 0, 255, 0.3);
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 40px rgba(255, 0, 255, 0.5);
+        }
+
+        .btn-secondary {
+            background: transparent;
+            color: var(--secondary);
+            border: 2px solid var(--secondary);
+            box-shadow: 0 10px 30px rgba(0, 255, 255, 0.2);
+        }
+
+        .btn-secondary:hover {
+            background: var(--secondary);
+            color: var(--dark);
+            transform: translateY(-5px);
+            box-shadow: 0 15px 40px rgba(0, 255, 255, 0.4);
+        }
+
+        /* Games Showcase */
+        .games-section {
+            padding: 8rem 5%;
+            position: relative;
+        }
+
+        .section-title {
+            font-family: 'Orbitron', sans-serif;
+            font-size: clamp(2rem, 5vw, 4rem);
+            text-align: center;
+            margin-bottom: 4rem;
+            background: linear-gradient(90deg, var(--primary), var(--secondary));
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .games-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 3rem;
+            margin-bottom: 4rem;
+        }
+
+        .game-card {
+            background: linear-gradient(135deg, rgba(255, 0, 255, 0.1), rgba(0, 255, 255, 0.1));
+            border-radius: 20px;
+            overflow: hidden;
+            position: relative;
+            transition: all 0.4s;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            cursor: pointer;
+        }
+
+        .game-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            opacity: 0;
+            transition: opacity 0.4s;
+            z-index: 1;
+        }
+
+        .game-card:hover::before {
+            opacity: 0.1;
+        }
+
+        .game-card:hover {
+            transform: translateY(-15px);
+            box-shadow: 0 20px 60px rgba(255, 0, 255, 0.4);
+        }
+
+        .game-image {
+            width: 100%;
+            height: 250px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 4rem;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .game-image::after {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 0;
+            height: 0;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.3);
+            transform: translate(-50%, -50%);
+            transition: width 0.6s, height 0.6s;
+        }
+
+        .game-card:hover .game-image::after {
+            width: 500px;
+            height: 500px;
+        }
+
+        .game-info {
+            padding: 2rem;
+            position: relative;
+            z-index: 2;
+        }
+
+        .game-info h3 {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 1.5rem;
+            margin-bottom: 0.5rem;
+            color: #fff;
+        }
+
+        .game-info .genre {
+            color: var(--secondary);
+            font-size: 0.9rem;
+            margin-bottom: 1rem;
+            font-weight: 600;
+        }
+
+        .game-info p {
+            color: rgba(255, 255, 255, 0.7);
+            line-height: 1.6;
+        }
+
+        /* Features Section */
+        .features {
+            padding: 8rem 5%;
+            background: linear-gradient(180deg, transparent, rgba(255, 0, 255, 0.05), transparent);
+        }
+
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 3rem;
+            margin-top: 4rem;
+        }
+
+        .feature-item {
+            text-align: center;
+            padding: 2.5rem;
+            background: rgba(255, 255, 255, 0.02);
+            border-radius: 20px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            transition: all 0.4s;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .feature-item::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(255, 0, 255, 0.1), transparent 70%);
+            opacity: 0;
+            transition: opacity 0.4s;
+        }
+
+        .feature-item:hover::before {
+            opacity: 1;
+        }
+
+        .feature-item:hover {
+            transform: translateY(-10px);
+            border-color: var(--primary);
+            box-shadow: 0 20px 40px rgba(255, 0, 255, 0.3);
+        }
+
+        .feature-icon {
+            font-size: 3.5rem;
+            margin-bottom: 1.5rem;
+            filter: drop-shadow(0 0 20px currentColor);
+        }
+
+        .feature-item h3 {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 1.3rem;
+            margin-bottom: 1rem;
+            color: var(--secondary);
+        }
+
+        .feature-item p {
+            color: rgba(255, 255, 255, 0.7);
+            line-height: 1.6;
+        }
+
+        /* Stats Section */
+        .stats {
+            padding: 6rem 5%;
+            text-align: center;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 3rem;
+            margin-top: 3rem;
+        }
+
+        .stat-item {
+            position: relative;
+        }
+
+        .stat-number {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 3.5rem;
+            font-weight: 900;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 0.5rem;
+            display: block;
+        }
+
+        .stat-label {
+            color: rgba(255, 255, 255, 0.6);
+            font-size: 1.1rem;
+        }
+
+        /* Footer */
+        footer {
+            padding: 4rem 5%;
+            background: rgba(10, 10, 15, 0.9);
+            border-top: 1px solid rgba(255, 0, 255, 0.2);
+            text-align: center;
+        }
+
+        .footer-content {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .social-links {
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+            margin: 2rem 0;
+        }
+
+        .social-links a {
+            color: #fff;
+            font-size: 2rem;
+            transition: all 0.3s;
+            text-decoration: none;
+        }
+
+        .social-links a:hover {
+            color: var(--primary);
+            transform: translateY(-5px);
+            filter: drop-shadow(0 0 15px var(--primary));
+        }
+
+        .copyright {
+            color: rgba(255, 255, 255, 0.5);
+            margin-top: 2rem;
+        }
+
+        /* Floating Particles */
+        .particle {
+            position: fixed;
+            width: 4px;
+            height: 4px;
+            background: var(--primary);
+            border-radius: 50%;
+            pointer-events: none;
+            opacity: 0.5;
+            animation: float 15s infinite;
+            z-index: 0;
+        }
+
+        @keyframes float {
+            0%, 100% {
+                transform: translateY(0) translateX(0);
+                opacity: 0;
+            }
+            10% {
+                opacity: 0.5;
+            }
+            90% {
+                opacity: 0.5;
+            }
+            100% {
+                transform: translateY(-100vh) translateX(100px);
+                opacity: 0;
+            }
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            nav ul {
+                display: none;
+            }
+
+            .cta-buttons {
+                flex-direction: column;
+                gap: 1rem;
+            }
+
+            .games-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        /* Modal Styles */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.9);
+            backdrop-filter: blur(10px);
+            z-index: 2000;
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+
+        .modal.active {
+            display: flex;
+            opacity: 1;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .modal-content {
+            background: linear-gradient(135deg, rgba(10, 10, 15, 0.95), rgba(20, 20, 30, 0.95));
+            border: 2px solid rgba(255, 0, 255, 0.3);
+            border-radius: 30px;
+            padding: 3rem;
+            max-width: 600px;
+            width: 90%;
+            max-height: 85vh;
+            overflow-y: auto;
+            position: relative;
+            box-shadow: 0 20px 60px rgba(255, 0, 255, 0.4);
+            transform: scale(0.8);
+            transition: transform 0.3s;
+        }
+
+        .modal.active .modal-content {
+            transform: scale(1);
+        }
+
+        .close-modal {
+            position: absolute;
+            top: 1.5rem;
+            left: 1.5rem;
+            font-size: 2rem;
+            color: #fff;
+            cursor: pointer;
+            background: none;
+            border: none;
+            transition: all 0.3s;
+            width: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+        }
+
+        .close-modal:hover {
+            background: rgba(255, 0, 255, 0.2);
+            transform: rotate(90deg);
+        }
+
+        .form-step {
+            display: none;
+            animation: slideIn 0.4s ease-out;
+        }
+
+        .form-step.active {
+            display: block;
+        }
+
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateX(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        .form-title {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 2rem;
+            text-align: center;
+            margin-bottom: 2rem;
+            background: linear-gradient(90deg, var(--primary), var(--secondary));
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .form-subtitle {
+            text-align: center;
+            color: rgba(255, 255, 255, 0.7);
+            margin-bottom: 2rem;
+            font-size: 1.1rem;
+        }
+
+        .progress-bar {
+            width: 100%;
+            height: 4px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+            margin-bottom: 3rem;
+            overflow: hidden;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, var(--primary), var(--secondary));
+            width: 0%;
+            transition: width 0.4s;
+            box-shadow: 0 0 10px var(--primary);
+        }
+
+        .option-group {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 1rem;
+            margin: 2rem 0;
+        }
+
+        .option-btn {
+            padding: 1.5rem;
+            background: rgba(255, 255, 255, 0.05);
+            border: 2px solid rgba(255, 255, 255, 0.1);
+            border-radius: 15px;
+            color: #fff;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-size: 1rem;
+            font-weight: 600;
+            text-align: center;
+        }
+
+        .option-btn:hover {
+            background: rgba(255, 0, 255, 0.1);
+            border-color: var(--primary);
+            transform: translateY(-5px);
+        }
+
+        .option-btn.selected {
+            background: linear-gradient(135deg, rgba(255, 0, 255, 0.3), rgba(0, 255, 255, 0.3));
+            border-color: var(--primary);
+            box-shadow: 0 0 20px rgba(255, 0, 255, 0.5);
+        }
+
+        .input-group {
+            margin: 1.5rem 0;
+        }
+
+        .input-group label {
+            display: block;
+            color: var(--secondary);
+            margin-bottom: 0.5rem;
+            font-weight: 600;
+        }
+
+        .input-group input,
+        .input-group select,
+        .input-group textarea {
+            width: 100%;
+            padding: 1rem;
+            background: rgba(255, 255, 255, 0.05);
+            border: 2px solid rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+            color: #fff;
+            font-size: 1rem;
+            font-family: 'Almarai', sans-serif;
+            transition: all 0.3s;
+        }
+
+        .input-group input:focus,
+        .input-group select:focus,
+        .input-group textarea:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 15px rgba(255, 0, 255, 0.3);
+        }
+
+        .input-group textarea {
+            resize: vertical;
+            min-height: 100px;
+        }
+
+        .form-buttons {
+            display: flex;
+            gap: 1rem;
+            margin-top: 2rem;
+            justify-content: space-between;
+        }
+
+        .btn-back,
+        .btn-next,
+        .btn-submit {
+            padding: 1rem 2rem;
+            border: none;
+            border-radius: 50px;
+            font-size: 1rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .btn-back {
+            background: rgba(255, 255, 255, 0.1);
+            color: #fff;
+        }
+
+        .btn-back:hover {
+            background: rgba(255, 255, 255, 0.2);
+        }
+
+        .btn-next,
+        .btn-submit {
+            background: linear-gradient(135deg, var(--primary), #c700ff);
+            color: #fff;
+            flex: 1;
+        }
+
+        .btn-next:hover,
+        .btn-submit:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 30px rgba(255, 0, 255, 0.5);
+        }
+
+        .btn-submit {
+            background: linear-gradient(135deg, var(--secondary), #00c3ff);
+        }
+
+        .success-message {
+            text-align: center;
+            padding: 2rem;
+        }
+
+        .success-icon {
+            font-size: 5rem;
+            margin-bottom: 1rem;
+            animation: successPulse 1s ease-in-out;
+        }
+
+        @keyframes successPulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.2); }
+        }
+
+        .success-message h3 {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 2rem;
+            color: var(--secondary);
+            margin-bottom: 1rem;
+        }
+
+        .success-message p {
+            color: rgba(255, 255, 255, 0.7);
+            line-height: 1.6;
+        }
+
+        /* Scrollbar */
+        ::-webkit-scrollbar {
+            width: 10px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: var(--darker);
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: linear-gradient(180deg, var(--primary), var(--secondary));
+            border-radius: 10px;
+        }
+
+        .modal-content::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        .modal-content::-webkit-scrollbar-thumb {
+            background: linear-gradient(180deg, var(--primary), var(--secondary));
+            border-radius: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div class="bg-animation"></div>
+    <div class="grid-overlay"></div>
+
+    <!-- Floating Particles -->
+    <div class="particle" style="right: 10%; animation-delay: 0s;"></div>
+    <div class="particle" style="right: 30%; animation-delay: 2s;"></div>
+    <div class="particle" style="right: 50%; animation-delay: 4s;"></div>
+    <div class="particle" style="right: 70%; animation-delay: 6s;"></div>
+    <div class="particle" style="right: 90%; animation-delay: 8s;"></div>
+
+    <header>
+        <div class="logo">NEXUS GAMES</div>
+        <nav>
+            <ul>
+                <li><a href="#home">الرئيسية</a></li>
+                <li><a href="#games">ألعابنا</a></li>
+                <li><a href="#features">مميزات</a></li>
+                <li><a href="#about">من نحن</a></li>
+                <li><a href="#contact">تواصل</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <section class="hero" id="home">
+        <div class="hero-content">
+            <h1>نخلق عوالم<br>لا تُنسى</h1>
+            <p>نصمم تجارب ألعاب ثورية تدفع حدود الواقع الرقمي</p>
+            <div class="cta-buttons">
+                <a href="#games" class="btn btn-primary">استكشف ألعابنا</a>
+                <a href="#" class="btn btn-secondary" onclick="openModal(event)">انضم لفريقنا</a>
+            </div>
+        </div>
+    </section>
+
+    <section class="games-section" id="games">
+        <h2 class="section-title">أحدث إبداعاتنا</h2>
+        <div class="games-grid">
+            <div class="game-card">
+                <div class="game-image" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);">
+                    🎮
+                </div>
+                <div class="game-info">
+                    <h3>عالم الأساطير</h3>
+                    <div class="genre">آر بي جي | مغامرات</div>
+                    <p>رحلة ملحمية عبر أراضٍ خيالية مليئة بالأسرار والمخلوقات الأسطورية. انغمس في قصة عميقة وقتال استراتيجي.</p>
+                </div>
+            </div>
+
+            <div class="game-card">
+                <div class="game-image" style="background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);">
+                    🚀
+                </div>
+                <div class="game-info">
+                    <h3>حروب المجرات</h3>
+                    <div class="genre">أكشن | خيال علمي</div>
+                    <p>معارك فضائية مذهلة مع رسومات متطورة. قد أسطولك واستكشف الكون في تجربة لا مثيل لها.</p>
+                </div>
+            </div>
+
+            <div class="game-card">
+                <div class="game-image" style="background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);">
+                    🏆
+                </div>
+                <div class="game-info">
+                    <h3>بطولة النخبة</h3>
+                    <div class="genre">رياضة | منافسة</div>
+                    <p>تجربة رياضية تنافسية مع فيزياء واقعية وذكاء اصطناعي متقدم. اختبر مهاراتك ضد لاعبين من جميع أنحاء العالم.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="features" id="features">
+        <h2 class="section-title">لماذا نكسوس؟</h2>
+        <div class="features-grid">
+            <div class="feature-item">
+                <div class="feature-icon">💎</div>
+                <h3>جودة استثنائية</h3>
+                <p>نستخدم أحدث التقنيات والمحركات لضمان تجربة بصرية وصوتية لا تُضاهى</p>
+            </div>
+
+            <div class="feature-item">
+                <div class="feature-icon">🎨</div>
+                <h3>تصميم إبداعي</h3>
+                <p>فريق من المبدعين المتخصصين في تصميم عوالم فريدة وشخصيات لا تُنسى</p>
+            </div>
+
+            <div class="feature-item">
+                <div class="feature-icon">🌍</div>
+                <p>مجتمع عالمي نشط من ملايين اللاعبين مع دعم مستمر وتحديثات دورية</p>
+            </div>
+
+            <div class="feature-item">
+                <div class="feature-icon">⚡</div>
+                <h3>أداء متفوق</h3>
+                <p>تحسينات مستمرة لضمان تشغيل سلس على مختلف الأجهزة والمنصات</p>
+            </div>
+        </div>
+    </section>
+
+    <section class="stats">
+        <h2 class="section-title">إنجازاتنا بالأرقام</h2>
+        <div class="stats-grid">
+            <div class="stat-item">
+                <span class="stat-number">50M+</span>
+                <div class="stat-label">لاعب نشط</div>
+            </div>
+            <div class="stat-item">
+                <span class="stat-number">200+</span>
+                <div class="stat-label">جائزة عالمية</div>
+            </div>
+            <div class="stat-item">
+                <span class="stat-number">15</span>
+                <div class="stat-label">لعبة منشورة</div>
+            </div>
+            <div class="stat-item">
+                <span class="stat-number">98%</span>
+                <div class="stat-label">تقييم إيجابي</div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Join Team Modal -->
+    <div class="modal" id="joinModal">
+        <div class="modal-content">
+            <button class="close-modal" onclick="closeModal()">&times;</button>
+            
+            <div class="progress-bar">
+                <div class="progress-fill" id="progressBar"></div>
+            </div>
+
+            <!-- Step 1: Role Selection -->
+            <div class="form-step active" id="step1">
+                <h2 class="form-title">ما هو دورك؟</h2>
+                <p class="form-subtitle">اختر المجال الذي تتخصص فيه</p>
+                <div class="option-group">
+                    <button class="option-btn" onclick="selectRole('designer')">
+                        <div style="font-size: 2rem; margin-bottom: 0.5rem;">🎨</div>
+                        مصمم
+                    </button>
+                    <button class="option-btn" onclick="selectRole('programmer')">
+                        <div style="font-size: 2rem; margin-bottom: 0.5rem;">💻</div>
+                        مبرمج
+                    </button>
+                    <button class="option-btn" onclick="selectRole('both')">
+                        <div style="font-size: 2rem; margin-bottom: 0.5rem;">⚡</div>
+                        كلاهما
+                    </button>
+                </div>
+            </div>
+
+            <!-- Step 2: Experience -->
+            <div class="form-step" id="step2">
+                <h2 class="form-title">مستوى خبرتك</h2>
+                <p class="form-subtitle">كم سنة من الخبرة لديك في تطوير الألعاب؟</p>
+                <div class="option-group">
+                    <button class="option-btn" onclick="selectExperience('beginner')">
+                        <div style="font-size: 2rem; margin-bottom: 0.5rem;">🌱</div>
+                        مبتدئ<br>(0-1 سنة)
+                    </button>
+                    <button class="option-btn" onclick="selectExperience('intermediate')">
+                        <div style="font-size: 2rem; margin-bottom: 0.5rem;">📈</div>
+                        متوسط<br>(1-3 سنوات)
+                    </button>
+                    <button class="option-btn" onclick="selectExperience('advanced')">
+                        <div style="font-size: 2rem; margin-bottom: 0.5rem;">🏆</div>
+                        متقدم<br>(3-5 سنوات)
+                    </button>
+                    <button class="option-btn" onclick="selectExperience('expert')">
+                        <div style="font-size: 2rem; margin-bottom: 0.5rem;">👑</div>
+                        خبير<br>(5+ سنوات)
+                    </button>
+                </div>
+            </div>
+
+            <!-- Step 3: Engine -->
+            <div class="form-step" id="step3">
+                <h2 class="form-title">المحرك المفضل</h2>
+                <p class="form-subtitle">ما هو محرك الألعاب الذي تستخدمه؟</p>
+                <div class="input-group">
+                    <select id="engineSelect" onchange="selectEngine(this.value)">
+                        <option value="">اختر المحرك...</option>
+                        <option value="Unity">Unity</option>
+                        <option value="Unreal Engine">Unreal Engine</option>
+                        <option value="Godot">Godot</option>
+                        <option value="GameMaker">GameMaker</option>
+                        <option value="CryEngine">CryEngine</option>
+                        <option value="Custom Engine">محرك مخصص</option>
+                        <option value="Other">آخر</option>
+                    </select>
+                </div>
+                <div class="input-group" id="otherEngineDiv" style="display: none;">
+                    <label>حدد المحرك الآخر:</label>
+                    <input type="text" id="otherEngine" placeholder="اكتب اسم المحرك...">
+                </div>
+                <div class="form-buttons">
+                    <button class="btn-back" onclick="prevStep()">رجوع</button>
+                    <button class="btn-next" onclick="nextStep()">التالي</button>
+                </div>
+            </div>
+
+            <!-- Step 4: Personal Info -->
+            <div class="form-step" id="step4">
+                <h2 class="form-title">معلوماتك الشخصية</h2>
+                <p class="form-subtitle">لنتعرف عليك أكثر</p>
+                
+                <div class="input-group">
+                    <label>الاسم الكامل *</label>
+                    <input type="text" id="fullName" placeholder="أدخل اسمك الكامل" required>
+                </div>
+
+                <div class="input-group">
+                    <label>البريد الإلكتروني (Gmail) *</label>
+                    <input type="email" id="email" placeholder="example@gmail.com" required>
+                </div>
+
+                <div class="input-group">
+                    <label>الجنسية *</label>
+                    <input type="text" id="nationality" placeholder="أدخل جنسيتك" required>
+                </div>
+
+                <div class="input-group">
+                    <label>العمر *</label>
+                    <input type="number" id="age" placeholder="أدخل عمرك" min="16" max="100" required>
+                </div>
+
+                <div class="input-group">
+                    <label>رقم الهاتف (اختياري)</label>
+                    <input type="tel" id="phone" placeholder="+213 XXX XXX XXX">
+                </div>
+
+                <div class="input-group">
+                    <label>رابط البورتفوليو أو GitHub (اختياري)</label>
+                    <input type="url" id="portfolio" placeholder="https://...">
+                </div>
+
+                <div class="input-group">
+                    <label>لماذا تريد الانضمام إلى فريقنا؟ *</label>
+                    <textarea id="motivation" placeholder="أخبرنا عن دوافعك وأهدافك..." required></textarea>
+                </div>
+
+                <div class="form-buttons">
+                    <button class="btn-back" onclick="prevStep()">رجوع</button>
+                    <button class="btn-submit" onclick="submitForm()">إرسال الطلب</button>
+                </div>
+            </div>
+
+            <!-- Success Message -->
+            <div class="form-step" id="stepSuccess">
+                <div class="success-message">
+                    <div class="success-icon">✨</div>
+                    <h3>تم إرسال طلبك بنجاح!</h3>
+                    <p>شكراً لاهتمامك بالانضمام إلى فريق NEXUS GAMES</p>
+                    <p>سنراجع طلبك ونتواصل معك قريباً عبر البريد الإلكتروني.</p>
+                    <button class="btn-primary" onclick="closeModal()" style="margin-top: 2rem;">إغلاق</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <footer id="contact">
+        <div class="footer-content">
+            <div class="logo" style="font-size: 2.5rem; margin-bottom: 2rem;">NEXUS GAMES</div>
+            <p style="color: rgba(255, 255, 255, 0.7); max-width: 600px; margin: 0 auto 2rem;">
+                نحن شركة رائدة في تطوير الألعاب، نسعى دائماً لتقديم تجارب استثنائية تجمع بين الإبداع والتكنولوجيا
+            </p>
+            <div class="social-links">
+                <a href="#" title="Twitter">𝕏</a>
+                <a href="#" title="Discord">💬</a>
+                <a href="#" title="YouTube">▶</a>
+                <a href="#" title="Instagram">📷</a>
+            </div>
+            <div class="copyright">
+                <p>&copy; 2026 NEXUS GAMES. جميع الحقوق محفوظة.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
+    <script src="https://smtpjs.com/v3/smtp.js"></script>
+    <script>
+        // تكوين EmailJS - لا حاجة لمفتاح مؤقتاً
+        // سنستخدم حل بديل
+
+        let currentStep = 1;
+        const formData = {
+            role: '',
+            experience: '',
+            engine: '',
+            fullName: '',
+            email: '',
+            nationality: '',
+            age: '',
+            phone: '',
+            portfolio: '',
+            motivation: ''
+        };
+
+        function openModal(e) {
+            if (e) e.preventDefault();
+            document.getElementById('joinModal').classList.add('active');
+            currentStep = 1;
+            updateProgress();
+        }
+
+        function closeModal() {
+            document.getElementById('joinModal').classList.remove('active');
+            resetForm();
+        }
+
+        function resetForm() {
+            currentStep = 1;
+            formData.role = '';
+            formData.experience = '';
+            formData.engine = '';
+            document.querySelectorAll('.form-step').forEach(step => step.classList.remove('active'));
+            document.getElementById('step1').classList.add('active');
+            document.querySelectorAll('.option-btn').forEach(btn => btn.classList.remove('selected'));
+            document.getElementById('joinModal').querySelector('form')?.reset();
+            updateProgress();
+        }
+
+        function updateProgress() {
+            const progress = (currentStep / 4) * 100;
+            document.getElementById('progressBar').style.width = progress + '%';
+        }
+
+        function selectRole(role) {
+            formData.role = role;
+            document.querySelectorAll('#step1 .option-btn').forEach(btn => btn.classList.remove('selected'));
+            event.target.closest('.option-btn').classList.add('selected');
+            setTimeout(() => nextStep(), 300);
+        }
+
+        function selectExperience(exp) {
+            formData.experience = exp;
+            document.querySelectorAll('#step2 .option-btn').forEach(btn => btn.classList.remove('selected'));
+            event.target.closest('.option-btn').classList.add('selected');
+            setTimeout(() => nextStep(), 300);
+        }
+
+        function selectEngine(engine) {
+            formData.engine = engine;
+            if (engine === 'Other') {
+                document.getElementById('otherEngineDiv').style.display = 'block';
+            } else {
+                document.getElementById('otherEngineDiv').style.display = 'none';
+            }
+        }
+
+        function nextStep() {
+            // Validation
+            if (currentStep === 3) {
+                const engine = document.getElementById('engineSelect').value;
+                if (!engine) {
+                    alert('الرجاء اختيار محرك الألعاب');
+                    return;
+                }
+                if (engine === 'Other') {
+                    const otherEngine = document.getElementById('otherEngine').value.trim();
+                    if (!otherEngine) {
+                        alert('الرجاء تحديد اسم المحرك');
+                        return;
+                    }
+                    formData.engine = otherEngine;
+                }
+            }
+
+            document.getElementById(`step${currentStep}`).classList.remove('active');
+            currentStep++;
+            document.getElementById(`step${currentStep}`).classList.add('active');
+            updateProgress();
+        }
+
+        function prevStep() {
+            document.getElementById(`step${currentStep}`).classList.remove('active');
+            currentStep--;
+            document.getElementById(`step${currentStep}`).classList.add('active');
+            updateProgress();
+        }
+
+        function validateEmail(email) {
+            const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            return re.test(email);
+        }
+
+        async function submitForm() {
+            // Collect form data
+            formData.fullName = document.getElementById('fullName').value.trim();
+            formData.email = document.getElementById('email').value.trim();
+            formData.nationality = document.getElementById('nationality').value.trim();
+            formData.age = document.getElementById('age').value.trim();
+            formData.phone = document.getElementById('phone').value.trim();
+            formData.portfolio = document.getElementById('portfolio').value.trim();
+            formData.motivation = document.getElementById('motivation').value.trim();
+
+            // Validation
+            if (!formData.fullName || !formData.email || !formData.nationality || !formData.age || !formData.motivation) {
+                alert('الرجاء ملء جميع الحقول المطلوبة (*)');
+                return;
+            }
+
+            if (!validateEmail(formData.email)) {
+                alert('الرجاء إدخال بريد إلكتروني صحيح');
+                return;
+            }
+
+            // تعطيل زر الإرسال لمنع الإرسال المتكرر
+            const submitBtn = event.target;
+            submitBtn.disabled = true;
+            submitBtn.textContent = 'جاري الإرسال...';
+
+            // Prepare data
+            const roleText = formData.role === 'designer' ? 'مصمم' : 
+                           formData.role === 'programmer' ? 'مبرمج' : 'مصمم ومبرمج';
+            
+            const experienceText = formData.experience === 'beginner' ? 'مبتدئ (0-1 سنة)' :
+                                 formData.experience === 'intermediate' ? 'متوسط (1-3 سنوات)' :
+                                 formData.experience === 'advanced' ? 'متقدم (3-5 سنوات)' :
+                                 'خبير (5+ سنوات)';
+
+            // إنشاء نموذج مخفي لإرسال البيانات إلى FormSubmit
+            const form = document.createElement('form');
+            form.action = 'https://formsubmit.co/tabaastudiogames@gmail.com';
+            form.method = 'POST';
+            form.style.display = 'none';
+
+            // إضافة الحقول
+            const fields = {
+                '_subject': `طلب انضمام جديد - ${formData.fullName}`,
+                '_captcha': 'false',
+                '_template': 'table',
+                '_next': window.location.href + '?success=true',
+                'الاسم_الكامل': formData.fullName,
+                'البريد_الإلكتروني': formData.email,
+                'الجنسية': formData.nationality,
+                'العمر': formData.age,
+                'رقم_الهاتف': formData.phone || 'غير متوفر',
+                'الدور': roleText,
+                'مستوى_الخبرة': experienceText,
+                'محرك_الألعاب': formData.engine,
+                'رابط_البورتفوليو': formData.portfolio || 'غير متوفر',
+                'سبب_الانضمام': formData.motivation,
+                'تاريخ_التقديم': new Date().toLocaleString('ar-DZ')
+            };
+
+            for (const [key, value] of Object.entries(fields)) {
+                const input = document.createElement('input');
+                input.type = 'hidden';
+                input.name = key;
+                input.value = value;
+                form.appendChild(input);
+            }
+
+            document.body.appendChild(form);
+
+            try {
+                // حفظ البيانات في localStorage قبل الإرسال
+                const applications = JSON.parse(localStorage.getItem('teamApplications') || '[]');
+                applications.push({
+                    ...formData,
+                    timestamp: new Date().toISOString()
+                });
+                localStorage.setItem('teamApplications', JSON.stringify(applications));
+
+                // التحقق من وجود معامل success في الرابط
+                const urlParams = new URLSearchParams(window.location.search);
+                if (urlParams.get('success') === 'true') {
+                    // تم الإرسال بنجاح من قبل
+                    showSuccessMessage();
+                    // إزالة المعامل من الرابط
+                    window.history.replaceState({}, document.title, window.location.pathname);
+                    submitBtn.disabled = false;
+                    submitBtn.textContent = 'إرسال الطلب';
+                    return;
+                }
+
+                // إرسال النموذج
+                form.submit();
+                
+            } catch (error) {
+                console.error('خطأ في الإرسال:', error);
+                submitBtn.disabled = false;
+                submitBtn.textContent = 'إرسال الطلب';
+                
+                // استخدام Web3Forms كحل بديل ثانٍ
+                tryWeb3Forms();
+            }
+        }
+
+        function showSuccessMessage() {
+            document.getElementById('step4').classList.remove('active');
+            document.getElementById('stepSuccess').classList.add('active');
+            updateProgress();
+        }
+
+        async function tryWeb3Forms() {
+            const roleText = formData.role === 'designer' ? 'مصمم' : 
+                           formData.role === 'programmer' ? 'مبرمج' : 'مصمم ومبرمج';
+            
+            const experienceText = formData.experience === 'beginner' ? 'مبتدئ (0-1 سنة)' :
+                                 formData.experience === 'intermediate' ? 'متوسط (1-3 سنوات)' :
+                                 formData.experience === 'advanced' ? 'متقدم (3-5 سنوات)' :
+                                 'خبير (5+ سنوات)';
+
+            const message = `
+📋 المعلومات الأساسية:
+الاسم الكامل: ${formData.fullName}
+البريد الإلكتروني: ${formData.email}
+الجنسية: ${formData.nationality}
+العمر: ${formData.age} سنة
+رقم الهاتف: ${formData.phone || 'غير متوفر'}
+
+🎮 المعلومات المهنية:
+الدور: ${roleText}
+مستوى الخبرة: ${experienceText}
+محرك الألعاب: ${formData.engine}
+رابط البورتفوليو: ${formData.portfolio || 'غير متوفر'}
+
+💬 الدافع للانضمام:
+${formData.motivation}
+            `;
+
+            try {
+                const response = await fetch('https://api.web3forms.com/submit', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Accept': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        access_key: 'YOUR_WEB3FORMS_KEY', // يجب استبداله
+                        subject: `طلب انضمام جديد - ${formData.fullName}`,
+                        from_name: formData.fullName,
+                        email: formData.email,
+                        message: message,
+                        to: 'tabaastudiogames@gmail.com'
+                    })
+                });
+
+                if (response.ok) {
+                    showSuccessMessage();
+                } else {
+                    throw new Error('فشل Web3Forms');
+                }
+            } catch (error) {
+                console.error('فشل Web3Forms:', error);
+                // الحل الأخير: mailto
+                useMailto();
+            }
+        }
+
+        function useMailto() {
+            const roleText = formData.role === 'designer' ? 'مصمم' : 
+                           formData.role === 'programmer' ? 'مبرمج' : 'مصمم ومبرمج';
+            
+            const experienceText = formData.experience === 'beginner' ? 'مبتدئ (0-1 سنة)' :
+                                 formData.experience === 'intermediate' ? 'متوسط (1-3 سنوات)' :
+                                 formData.experience === 'advanced' ? 'متقدم (3-5 سنوات)' :
+                                 'خبير (5+ سنوات)';
+
+            const emailContent = `طلب انضمام جديد إلى فريق NEXUS GAMES
+=======================================
+
+📋 المعلومات الأساسية:
+------------------------
+الاسم الكامل: ${formData.fullName}
+البريد الإلكتروني: ${formData.email}
+الجنسية: ${formData.nationality}
+العمر: ${formData.age} سنة
+رقم الهاتف: ${formData.phone || 'غير متوفر'}
+
+🎮 المعلومات المهنية:
+------------------------
+الدور: ${roleText}
+مستوى الخبرة: ${experienceText}
+محرك الألعاب: ${formData.engine}
+رابط البورتفوليو: ${formData.portfolio || 'غير متوفر'}
+
+💬 الدافع للانضمام:
+------------------------
+${formData.motivation}
+
+=======================================
+تاريخ التقديم: ${new Date().toLocaleString('ar-DZ')}`;
+
+            const subject = encodeURIComponent(`طلب انضمام جديد - ${formData.fullName}`);
+            const body = encodeURIComponent(emailContent);
+            const mailtoLink = `mailto:tabaastudiogames@gmail.com?subject=${subject}&body=${body}`;
+            
+            window.location.href = mailtoLink;
+            
+            // عرض رسالة للمستخدم
+            setTimeout(() => {
+                const confirmSend = confirm('هل تم فتح برنامج البريد الإلكتروني؟\nاضغط "موافق" إذا تم الإرسال بنجاح');
+                if (confirmSend) {
+                    showSuccessMessage();
+                }
+            }, 2000);
+        }
+
+        // Smooth scrolling
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                const href = this.getAttribute('href');
+                if (href !== '#') {
+                    e.preventDefault();
+                    const target = document.querySelector(href);
+                    if (target) {
+                        target.scrollIntoView({
+                            behavior: 'smooth',
+                            block: 'start'
+                        });
+                    }
+                }
+            });
+        });
+
+        // Parallax effect on scroll
+        window.addEventListener('scroll', () => {
+            const scrolled = window.pageYOffset;
+            const parallaxElements = document.querySelectorAll('.hero-content');
+            parallaxElements.forEach(el => {
+                el.style.transform = `translateY(${scrolled * 0.3}px)`;
+            });
+        });
+
+        // Intersection Observer for animations
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -100px 0px'
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.style.opacity = '1';
+                    entry.target.style.transform = 'translateY(0)';
+                }
+            });
+        }, observerOptions);
+
+        document.querySelectorAll('.game-card, .feature-item, .stat-item').forEach(el => {
+            el.style.opacity = '0';
+            el.style.transform = 'translateY(30px)';
+            el.style.transition = 'all 0.6s ease-out';
+            observer.observe(el);
+        });
+
+        // Close modal on outside click
+        document.getElementById('joinModal').addEventListener('click', function(e) {
+            if (e.target === this) {
+                closeModal();
+            }
+        });
+
+        // Close modal on Escape key
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape') {
+                closeModal();
+            }
+        });
+    </script>
+</body>
+</html>
